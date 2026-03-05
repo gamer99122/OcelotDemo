@@ -1,0 +1,33 @@
+# Visual Studio cache/options directory
+.vs/
+
+# Build result
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+# User-specific files
+*.user
+*.userosscache
+*.sln.docstates
+
+# Old solution format
+*.slnx
+
+# NuGet
+.nuget/
+packages/
+*.nupkg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
