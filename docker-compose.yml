@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+    depends_on:
+      - service-a
+      - service-b
+    networks:
+      - ocelot-network
+
+  service-a:
+    build:
+      context: .
+      dockerfile: ServiceA/Dockerfile
+    ports:
+      - "5056:5056"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5056
+    networks:
+      - ocelot-network
+
+  service-b:
+    build:
+      context: .
+      dockerfile: ServiceB/Dockerfile
+    ports:
+      - "5111:5111"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5111
+    networks:
+      - ocelot-network
+
+networks:
+  ocelot-network:
+    driver: bridge
