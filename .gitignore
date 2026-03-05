@@ -13,9 +13,6 @@ obj/
 *.userosscache
 *.sln.docstates
 
-# Old solution format
-*.slnx
-
 # NuGet
 .nuget/
 packages/
