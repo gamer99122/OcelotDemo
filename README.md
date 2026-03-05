@@ -72,7 +72,7 @@ Ocelot 在 **ocelot.json** 中定義了以下路由規則：
 
 ### 前置條件
 - .NET 8 或 .NET 10 SDK
-- Visual Studio 2022 或 Visual Studio Code
+- Visual Studio 2022 或 Visual Studio Code（可選）
 
 ### 建置專案
 
@@ -81,27 +81,60 @@ cd OcelotDemo
 dotnet build
 ```
 
-### 運行服務
+### 一鍵啟動所有服務（推薦）✨
+
+#### Windows (PowerShell)
+```powershell
+.\start-all.ps1
+```
+
+#### Linux / macOS (Bash)
+```bash
+chmod +x start-all.sh
+./start-all.sh
+```
+
+#### 使用 Docker Compose
+```bash
+docker-compose up --build
+```
+
+---
+
+### 手動運行服務（開發模式）
 
 在不同的終端視窗中分別執行：
 
-**1. 啟動 ApiGateway（網關）**
+**終端 1 - 啟動 ApiGateway（網關）**
 ```bash
 dotnet run --project ApiGateway
 # 監聽: http://localhost:5000
 ```
 
-**2. 啟動 ServiceA**
+**終端 2 - 啟動 ServiceA**
 ```bash
 dotnet run --project ServiceA
 # 監聽: http://localhost:5056
 ```
 
-**3. 啟動 ServiceB**
+**終端 3 - 啟動 ServiceB**
 ```bash
 dotnet run --project ServiceB
 # 監聽: http://localhost:5111
 ```
+
+## 📋 啟動方式對比
+
+| 方式 | 命令 | 優點 | 適用場景 |
+|------|------|------|--------|
+| **一鍵啟動（推薦）** | `.\start-all.ps1` 或 `./start-all.sh` | 簡單、快速、視覺化 | 日常開發 |
+| **Docker Compose** | `docker-compose up --build` | 隔離環境、跨平台 | CI/CD、部署 |
+| **手動啟動** | 3 個終端分別運行 | 完整日誌、易於調試 | 深度開發調試 |
+| **Visual Studio** | F5（設置多啟動專案） | 集成開發、斷點調試 | IDE 開發 |
+
+> 📖 詳細啟動指南請參考 **[STARTUP-GUIDE.md](./STARTUP-GUIDE.md)**
+
+---
 
 ## 📡 測試 API
 
@@ -231,11 +264,51 @@ public class TestController : ControllerBase
 - Ocelot 支援請求/響應轉換、驗證、限流等高級功能
 - 可使用 Ocelot 的 QoS（Quality of Service）功能實現熔斷和重試
 
+## 📂 核心文件說明
+
+| 檔案/目錄 | 說明 |
+|----------|------|
+| `OcelotDemo.slnx` | Visual Studio 解決方案文件 |
+| `ocelot.json` | Ocelot 路由配置文件 |
+| `start-all.ps1` | Windows 一鍵啟動腳本 |
+| `start-all.sh` | Linux/macOS 一鍵啟動腳本 |
+| `docker-compose.yml` | Docker Compose 容器編排配置 |
+| `*/Dockerfile` | 各服務的容器鏡像配置 |
+| `STARTUP-GUIDE.md` | 詳細啟動指南和常見問題解答 |
+| `README.md` | 本文件（快速開始指南） |
+
+## 🐳 容器化部署
+
+本專案支援 Docker 容器化，包含：
+- 完整的 Dockerfile 配置（三層構建）
+- docker-compose.yml 一鍵部署配置
+- 自動化容器網路設定
+
+詳見 **[STARTUP-GUIDE.md](./STARTUP-GUIDE.md)** 的 Docker Compose 章節。
+
 ## 📚 相關資源
 
 - [Ocelot 官方文檔](https://ocelot.readthedocs.io/)
 - [ASP.NET Core 官方文檔](https://docs.microsoft.com/aspnet/core/)
 - [API 網關設計模式](https://microservices.io/patterns/apigateway.html)
+- [Docker 官方文檔](https://docs.docker.com/)
+- [Docker Compose 文檔](https://docs.docker.com/compose/)
+
+## ❓ 常見問題
+
+**Q: 如何一鍵啟動所有服務？**
+A: 執行 `start-all.ps1`（Windows）或 `./start-all.sh`（Linux/macOS）
+
+**Q: 如何用 Docker 運行？**
+A: 執行 `docker-compose up --build`
+
+**Q: 如何在 Visual Studio 中同時運行多個專案？**
+A: 在 Solution Properties 中設置多啟動專案，詳見 STARTUP-GUIDE.md
+
+**Q: 如何修改服務埠號？**
+A: 修改 `Properties/launchSettings.json` 和 `ApiGateway/ocelot.json`
+
+更多常見問題解答請參考 **[STARTUP-GUIDE.md](./STARTUP-GUIDE.md)**
 
 ## 📄 授權
 
